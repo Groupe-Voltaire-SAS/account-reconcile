@@ -120,8 +120,7 @@ class AccountMoveLineReconcileManual(models.TransientModel):
                 journals = self.env["account.journal"].search(
                     [("type", "=", "general"), ("company_id", "=", wiz.company_id.id)]
                 )
-                if len(journals) == 1:
-                    wiz.writeoff_journal_id = journals.id
+                wiz.writeoff_journal_id = journals[0].id if journals else False
 
     @api.depends("writeoff_account_id")
     def _compute_writeoff_analytic_distribution(self):
